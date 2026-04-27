@@ -1,0 +1,49 @@
+// datasource
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Booking {
+  id String @id @default(uuid())
+
+  // user info
+  name  String?
+  email String?
+  phone String?
+
+  // booking details
+  date              DateTime?
+  timeSlot          String? // e.g. "10:00 AM - 12:00 PM"
+  people            Int?
+  experienceId      String? // future use (rezgo / custom)
+  planningType      String? // e.g. "STAG DO", "HEN PARTY", "BIRTHDAY"
+  city              String? // e.g. "MANCHESTER"
+  region            String? // e.g. "NORTH WEST"
+  experienceName    String? // e.g. "SPARTACUS CUP MAX"
+  experiencePrice   Float? // e.g. 47.50
+  currency          String? // e.g. "GBP"
+  activityPrimary   String? // first activity (if applicable)
+  activitySecondary String? // second activity (if applicable)
+  customerNote      String? // "Anything we should know?"
+  source            String? // e.g. "frontend"
+  rawPayload        Json? // store full payload for debugging/auditing
+
+  // system status
+  status String? // PENDING, CHECKED, AVAILABLE, NOT_AVAILABLE
+  note   String? // admin note / reason
+
+  // optional tracking
+  isChecked Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date, timeSlot])
+  @@index([status])
+}
