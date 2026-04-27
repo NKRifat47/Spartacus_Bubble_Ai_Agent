@@ -48,14 +48,11 @@ const loadEnvVars = () => {
     // Rezgo
     REZGO_CID: process.env.REZGO_CID,
     REZGO_API_KEY: process.env.REZGO_API_KEY,
-    // node mailer (SMTP)
-    EMAIL_SENDER: {
-      SMTP_HOST: process.env.SMTP_HOST,
-      SMTP_PORT: process.env.SMTP_PORT,
-      SMTP_USER: process.env.SMTP_USER,
-      SMTP_PASS: process.env.SMTP_PASS,
-      SMTP_FROM: process.env.SMTP_FROM,
-    },
+
+    // SendGrid
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+    SENDGRID_FROM: process.env.SENDGRID_FROM,
+
     // Google OAuth
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
