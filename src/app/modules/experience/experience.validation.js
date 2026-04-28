@@ -22,4 +22,3 @@ export const listTimesSchema = z.object({
     })
     .strict(false),
 });
-

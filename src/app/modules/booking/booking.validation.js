@@ -28,4 +28,3 @@ export const createBookingSchema = z.object({
     })
     .strict(false),
 });
-

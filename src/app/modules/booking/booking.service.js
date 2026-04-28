@@ -139,7 +139,8 @@ export const checkRezgoAvailability = async ({
     return {
       available: false,
       remaining: null,
-      reason: "Rezgo did not return a numeric availability for this option/date",
+      reason:
+        "Rezgo did not return a numeric availability for this option/date",
       rezgo,
     };
   }
@@ -219,4 +220,3 @@ export const createBooking = async (payload) => {
     },
   });
 };
-

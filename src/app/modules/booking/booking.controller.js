@@ -28,15 +28,19 @@ export const bookingController = {
 
         sendGridEmail({ to, subject, text })
           .then((info) => {
-            console.log("✅ SendGrid email queued:", to, info?.statusCode || "");
+            console.log(
+              "✅ SendGrid email queued:",
+              to,
+              info?.statusCode || "",
+            );
           })
           .catch((err) => {
-          console.error(
-            "❌ SendGrid email failed:",
-            err?.statusCode || "",
-            err?.message || err,
-            err?.details ? JSON.stringify(err.details) : "",
-          );
+            console.error(
+              "❌ SendGrid email failed:",
+              err?.statusCode || "",
+              err?.message || err,
+              err?.details ? JSON.stringify(err.details) : "",
+            );
           });
       }
       return sendResponse(res, {
@@ -54,4 +58,3 @@ export const bookingController = {
     }
   },
 };
-

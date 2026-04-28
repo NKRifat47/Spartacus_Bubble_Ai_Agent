@@ -5,7 +5,10 @@ import { bookingController } from "./booking.controller.js";
 
 const router = Router();
 
-router.post("/", validateRequest(createBookingSchema), bookingController.create);
+router.post(
+  "/",
+  validateRequest(createBookingSchema),
+  bookingController.create,
+);
 
 export const bookingRoutes = router;
-

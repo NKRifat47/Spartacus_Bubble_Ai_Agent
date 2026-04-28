@@ -82,7 +82,9 @@ export const listExperiences = async ({
       },
       media: {
         total: it?.media?.total ?? it?.media?.["@attributes"]?.value ?? null,
-        images: toArray(it?.media?.image).map((img) => img?.path).filter(Boolean),
+        images: toArray(it?.media?.image)
+          .map((img) => img?.path)
+          .filter(Boolean),
       },
       rezgo: {
         uid,
@@ -124,4 +126,3 @@ export const listAvailableTimes = async ({ uid, date, people = 1 }) => {
     rezgo,
   };
 };
-
