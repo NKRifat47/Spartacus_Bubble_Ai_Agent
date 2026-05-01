@@ -8,7 +8,8 @@ const normalizeTime = (value) => {
     .toLowerCase()
     .replace(/\s+/g, "")
     .replace(/:/g, ":")
-    .replace(/\./g, "");
+    .replace(/\./g, "")
+    .replace(/(^|,)0+([0-9]:)/g, "$1$2");
 };
 
 const toYmd = (date) => {
@@ -93,7 +94,18 @@ export const checkRezgoAvailability = async ({
   const requestedTime = normalizeTime(timeSlot);
   const matched =
     requestedTime && requestedTime.length
-      ? items.find((it) => normalizeTime(it?.time).includes(requestedTime))
+      ? items.find((it) => {
+          if (normalizeTime(it?.time).includes(requestedTime)) return true;
+          
+          const timeListRaw = it?.date?.time_data?.time ?? null;
+          const timeList = Array.isArray(timeListRaw)
+            ? timeListRaw
+            : timeListRaw
+              ? [timeListRaw]
+              : [];
+              
+          return timeList.some((t) => normalizeTime(t?.id) === requestedTime);
+        })
       : items[0];
 
   if (!matched) {
