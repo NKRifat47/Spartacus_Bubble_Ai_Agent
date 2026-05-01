@@ -4,7 +4,7 @@ import { envVars } from "../config/env.js";
 const isConfigured = () =>
   Boolean(envVars.SENDGRID_API_KEY && envVars.SENDGRID_FROM);
 
-export const sendGridEmail = async ({ to, subject, text, html }) => {
+export const sendGridEmail = async ({ to, subject, text, html, replyTo }) => {
   if (!isConfigured()) {
     throw new Error(
       "SendGrid is not configured (missing SENDGRID_API_KEY or SENDGRID_FROM)",
@@ -17,6 +17,7 @@ export const sendGridEmail = async ({ to, subject, text, html }) => {
     const [resp] = await sgMail.send({
       to,
       from: envVars.SENDGRID_FROM,
+      replyTo: replyTo || envVars.SENDGRID_FROM,
       subject,
       text,
       html,
