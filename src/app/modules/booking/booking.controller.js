@@ -36,8 +36,10 @@ export const bookingController = {
                 date: result.date,
                 people: requested || 1,
               });
-              const alternatives = (availableTimesData?.times || []).filter((t) => t.canBook);
-              
+              const alternatives = (availableTimesData?.times || []).filter(
+                (t) => t.canBook,
+              );
+
               if (alternatives.length > 0) {
                 alternativeText = `However, we do have the following slots available on ${result.date}:\n`;
                 alternatives.forEach((t) => {
@@ -53,31 +55,51 @@ export const bookingController = {
           }
 
           text = `Hi ${result?.name || ""}\n\nSorry — your requested slot is not available.\n\nReason: ${reason}\n\nExperience: ${result?.experienceName || ""}\nDate: ${result?.date}\nTime: ${result?.timeSlot}\nPeople requested: ${requested}\nRemaining: ${remaining}\n\n${alternativeText}`;
-          
+
           if (envVars.AI_ENGINE_URL) {
             try {
               console.log("Sending message to AI Engine...");
-              
+
               const aiPrompt = `${text}\n\nIMPORTANT: When generating your reply, do not use generic placeholders like [Your Name]. Please end the email exactly with this signature:\nBest regards,\nSpartacus Support\nSpartacus Bubble Soccer Team\nEmail: hi@spartacusbublesoccer.co.uk\nWebsite: https://spartacusbubble.rezgo.com/`;
 
-              const aiResponse = await axios.post(`${envVars.AI_ENGINE_URL}/reply`, {
-                message: aiPrompt
-              });
-              
-              let aiText = aiResponse?.data?.reply || aiResponse?.data?.message || aiResponse?.data?.response || aiResponse?.data;
+              const aiResponse = await axios.post(
+                `${envVars.AI_ENGINE_URL}/reply`,
+                {
+                  message: aiPrompt,
+                },
+              );
+
+              let aiText =
+                aiResponse?.data?.reply ||
+                aiResponse?.data?.message ||
+                aiResponse?.data?.response ||
+                aiResponse?.data;
               if (typeof aiText === "string" && aiText.trim() !== "") {
                 // Fallback cleanup in case AI still outputs placeholders
-                aiText = aiText.replace(/\[Your Name\]/gi, "Spartacus Support")
-                               .replace(/\[Contact Information\]/gi, "hi@spartacusbublesoccer.co.uk")
-                               .replace(/\[Website Link\]/gi, "https://spartacusbubble.rezgo.com/");
-                               
+                aiText = aiText
+                  .replace(/\[Your Name\]/gi, "Spartacus Support")
+                  .replace(
+                    /\[Contact Information\]/gi,
+                    "hi@spartacusbublesoccer.co.uk",
+                  )
+                  .replace(
+                    /\[Website Link\]/gi,
+                    "https://spartacusbubble.rezgo.com/",
+                  );
+
                 text = aiText;
                 console.log("Successfully replaced message with AI response.");
               } else {
-                console.warn("AI Engine returned an unexpected format:", aiResponse.data);
+                console.warn(
+                  "AI Engine returned an unexpected format:",
+                  aiResponse.data,
+                );
               }
             } catch (err) {
-              console.error("Failed to get response from AI Engine:", err?.message || err);
+              console.error(
+                "Failed to get response from AI Engine:",
+                err?.message || err,
+              );
             }
           }
         }

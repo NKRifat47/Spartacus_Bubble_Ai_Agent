@@ -96,14 +96,14 @@ export const checkRezgoAvailability = async ({
     requestedTime && requestedTime.length
       ? items.find((it) => {
           if (normalizeTime(it?.time).includes(requestedTime)) return true;
-          
+
           const timeListRaw = it?.date?.time_data?.time ?? null;
           const timeList = Array.isArray(timeListRaw)
             ? timeListRaw
             : timeListRaw
               ? [timeListRaw]
               : [];
-              
+
           return timeList.some((t) => normalizeTime(t?.id) === requestedTime);
         })
       : items[0];

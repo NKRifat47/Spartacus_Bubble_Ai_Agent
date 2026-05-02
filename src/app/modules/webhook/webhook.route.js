@@ -8,4 +8,8 @@ export const webhookRoutes = Router();
 // Memory storage is sufficient since we only need text fields, no large files
 const upload = multer();
 
-webhookRoutes.post("/sendgrid/inbound", upload.none(), webhookController.sendgridInbound);
+webhookRoutes.post(
+  "/sendgrid/inbound",
+  upload.none(),
+  webhookController.sendgridInbound,
+);
